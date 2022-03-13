@@ -2,6 +2,8 @@ use clap::{Arg, App};
 use iz80::*;
 
 mod pds_machine;
+#[cfg(unix)]
+mod console_unix;
 
 use self::pds_machine::PdsMachine;
 
