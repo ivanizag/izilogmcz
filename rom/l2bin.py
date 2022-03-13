@@ -24,9 +24,9 @@ for line in source:
             elif address == 0x0b52:
                 code = 'DISK ERROR'.encode('ascii')
             elif address == 0x0b87:
-                code = "A B C D E F H L I A''B''C''D''".encode('ascii')
+                code = "A B C D E F H L I A'B'C'D'".encode('ascii')
             elif address == 0x0ba1:
-                code = "E''F''H''L''IXIYPCSP".encode('ascii')
+                code = "E'F'H'L'IXIYPCSP".encode('ascii')
 
             dest.write(code)
             next += len(code)
