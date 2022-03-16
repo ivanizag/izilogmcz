@@ -9,8 +9,8 @@ use self::pds_machine::PdsMachine;
 
 // Welcome message
 const WELCOME: &str =
-"Kaypro https://github.com/ivanizag/izkaypro
-Emulation of the Zilog MCZ-1 computer";
+"Emulation of the Zilog MCZ-1 computer
+https://github.com/ivanizag/izilogpds\n";
 
 
 fn main() {

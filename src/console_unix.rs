@@ -54,7 +54,7 @@ impl Console {
     }
 
     pub fn read(&mut self) -> u8 {
-        match self.next_char {
+        let ch = match self.next_char {
             Some(ch) => {
                 self.next_char = None;
                 ch
@@ -67,6 +67,11 @@ impl Console {
                 self.setup_host_terminal(false);
                 buf[0]
             }
+        };
+
+        match ch {
+            0x7f => 0x08, // Backspace
+            _ => ch
         }
     }
 
