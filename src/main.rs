@@ -12,8 +12,8 @@ const WELCOME: &str =
 "Emulation of the Zilog MCZ-1 computer
 https://github.com/ivanizag/izilogpds\n";
 
-//static DISK: &[u8] = include_bytes!("../disks/13-1000-01-UNABRIDGED_SYSTEM_DISK.MCZ");
-static DISK: &[u8] = include_bytes!("../disks/13-3001-01_MCZ1-20_RIO_206.MCZ");
+static DISK: &[u8] = include_bytes!("../disks/13-1000-01-UNABRIDGED_SYSTEM_DISK.MCZ");
+//static DISK: &[u8] = include_bytes!("../disks/13-3001-01_MCZ1-20_RIO_206.MCZ");
 //static DISK: &[u8] = include_bytes!("../disks/13-3001-03_MCZ-PDS_RIO_2-2.MCZ");
 //static DISK: &[u8] = include_bytes!("../disks/13-3001-03_MCZ-PDS_RIO_220-MCZIMAGER.MCZ");
 
@@ -79,9 +79,9 @@ fn rom_floopy(machine: &mut PdsMachine, iy: u16, floppy_trace: bool) -> u16 {
 
     let completion_code: u8;
     let asynch = request == RBDIN_ASYNC || request == WRTBIN_ASYNC;
-    /*if volume != 0 {
+    if volume != 0 {
         completion_code = 0xc2 // Disk is not ready
-    } else */ if request == RBDIN_SYNC || request == RBDIN_ASYNC {
+    } else if request == RBDIN_SYNC || request == RBDIN_ASYNC {
         for i in 0..sectors {
             read_disk(machine, data_address, sector + i as u8, track);
             data_address = data_address.wrapping_add(SECTOR_SIZE as u16);
@@ -95,7 +95,13 @@ fn rom_floopy(machine: &mut PdsMachine, iy: u16, floppy_trace: bool) -> u16 {
 
     machine.poke(iy+10, completion_code);
 
-    if asynch { completion_return_address} else { 0 }
+    if !asynch {
+        0
+    } else if completion_code == 0x80 {
+        completion_return_address
+    } else {
+        error_return_address
+    }
 }
 
 fn interrupt(cpu: &mut Cpu, machine: &mut PdsMachine, dest: u16) {
