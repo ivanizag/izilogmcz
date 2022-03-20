@@ -2,13 +2,13 @@
 
 ## What is this?
 
-This is an emulator of the MCZ-1 computer by Zilog used for Z80 development. This is not a high fidelity emulator, I have no access to the real devices. The objective is being able to run the MCZ-1 monitor and the RIO operating system.
+This is an emulator of the MCZ-1 computer by Zilog used for Z80 development. This is not a high fidelity emulator, I have no access to the real devices. The objective is being able to run the MCZ-1 monitor and the RIO operating system. The flopyy controller is not emulated, the floppy call on the PROM is simulated and bypassed.
 
 It uses the [iz80](https://github.com/ivanizag/iz80) library. Made with Rust.
 
 ## What was a MCZ-1 computer?
 
-The MCZ-1 is a computer from Zilog to support the creation of new systems using their Z80 processor. It could run the RIO operating system. Other computers of the same family were the ZDS and PDS models.
+The MCZ-1 is a computer from Zilog to support the creation of new systems using their Z80 processor. It could run the RIO operating system. Other computers of the same family were the ZDS and PDS models. The basic configuration has an [MCB](https://github.com/sebhc/sebhc/blob/master/mcz/docs/03-0007-03_Z80-MCB_Hardware_Users_Manual.pdf) Microcomputer Board and a [MDC](https://github.com/sebhc/sebhc/blob/master/mcz/docs/03-3006-02_Z-80_MDC_Hardware_Reference_Manual.pdf) Memory Disk Controller board.
 
 Main features:
 
@@ -21,7 +21,7 @@ Main features:
 - 9 slots
 
 From the Zilog [brochure](https://web.archive.org/web/20170904130919/https://amaus.org/static/S100/zilog/brochure/Zilog%20MCZ-1%20Series%20System.pdf): The Zilog MCZ-1 Microcomputer Systems are a series of general purpose computers providing very high per-
-formance at a low cost. These systems are designed for high reliability and low maintenance. The MCZ-1 Systemsr
+formance at a low cost. These systems are designed for high reliability and low maintenance. The MCZ-1 Systems
 feature the use of the Z80 Microprocessor and its 158 instruction set, a disk based operating system, main stor- '
 age capacity for up to 65K bytes of semiconductor memory, and two integral floppy disk drives. The MCZ-1
 Series consists of units that are free standing, rack mountable and expandable beyond the basic 9 slot card cage
@@ -67,9 +67,78 @@ FF 00 00 00 00 FF 00 00 00 00 00 00 00 00 00 00 00 0000 0000 0000 FFFF
 3005=06 300D=08 
 3006=07 300E=08 
 3007=00 300F=08 
->OS
-DISK ERROR
+```
 
+Load the OS with a double return on boot or with the OS command in the monitor:
+```
+casa@servidor:~$ ./izilogpds 
+    Finished dev [unoptimized + debuginfo] target(s) in 0.01s
+     Running `target/debug/izilogpds`
+Emulation of the Zilog MCZ-1 computer
+https://github.com/ivanizag/izilogpds
+
+>OS
+FRIDAY, SEPTEMBER  1, 1978
+RIO REL 2.06
+%DISPLAY
+DISPLAY
+                    MEMORY ALLOCATION MAP
+
+            0        400       800       C00
+            |   |     |   |     |   |     |   |
+0000        AAAAAAAA  AAAAAAAA  AAAAAAAA  AAAAAAAA
+1000        AAAAAAAA  AAAAAAAA  AAAAAAAA  AAAAAAAA
+2000        AAAAAAAA  AAAAAAAA  AAAAAAAA  AAAAAAAA
+3000        AAAAAAAA  AAAAAAAA  AAAAAAAA  AAAAAAAA
+4000        AAAAAAAA  AAAAA...  ........  ........
+5000        ........  ........  ........  ........
+6000        ........  ........  ........  ........
+7000        ........  ........  ........  ........
+8000        ........  ........  ........  ........
+9000        ........  ........  ........  ........
+A000        ........  ........  ........  ........
+B000        ........  ........  ........  ........
+C000        ........  ........  ........  ........
+D000        ........  ........  ........  ........
+E000        ........  ........  ........  ........
+F000        ........  AAAAAAAA  AAAAAAAA  AAAAAAAA
+
+        "." => FREE    "A" => ALLOCATED
+%CAT D=0
+CAT D=0
+ FILENAME         DRIVE
+ OS.INIT            0    
+ NOTE.TO.USER       0    
+ HELLO.S            0    
+ HELLO.OBJ          0    
+ FILE.DEBUG         0    
+ ZDOSI              0    
+ RIO.OBJ            0    
+ LAST_MODULE.OBJ    0    
+ MCZ.1.20.PROM.780808.OBJ        
+                    0    
+ MCZ.ZDOS.OBJ       0    
+ CON.MAIN.OBJ       0    
+ CONVERT            0    
+ CON.MCZ.OBJ        0    
+ DO.OBJ             0    
+ PAUSE.OBJ          0    
+ IMAGE.OBJ          0    
+ ECHO.OBJ           0    
+ RELINK.MCZ.COMMAND 0    
+ NBUG.OBJ           0    
+ NBUG1.OBJ          0    
+ NBUG2.OBJ          0    
+ NBUGLAST.OBJ       0    
+ ZBUG.OBJ           0    
+ NBUG.LINK.CMD      0    
+%STATUS 0
+STATUS 0
+
+DRIVE 0   13-3001-01A MCZ1/20 RIO
+1769 SECTORS USED
+ 695 SECTORS AVAILABLE
+%
 ```
 
 ## Documentation
@@ -77,6 +146,7 @@ DISK ERROR
 - [Brochure MCZ-1 Series Microcomputer System](https://web.archive.org/web/20170904130919/https://amaus.org/static/S100/zilog/brochure/Zilog%20MCZ-1%20Series%20System.pdf)
 - [MCZ-1/2A and MCZ-1/25A Microcomputers Floppy PROM User Guide](http://bitsavers.trailing-edge.com/pdf/zilog/mcz-1/03-3106-01A_MCZ-1_20A_and_MCZ-1_25A_Microcomputers_Floppy_Prom_User_Guide_Dec79.pdf)
 - MCZ-1 Hardware User's manual. It must exists as it is referenced in other documents, but I haven't been able to find a scan.
+- Disks retrieved from: https://github.com/sebhc/sebhc/
 
 ## References
 

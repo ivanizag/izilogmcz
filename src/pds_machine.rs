@@ -20,7 +20,6 @@ pub struct PdsMachine {
     trace_io: bool,
     console: Console,
 
-    clk1: u8, // TTY timer
     //i_command: usize
 }
 
@@ -31,7 +30,6 @@ impl PdsMachine {
             trace_io,
             console: Console::new(),
 
-            clk1: 0,
             //i_command: 0
         }
     }
@@ -64,6 +62,10 @@ impl PdsMachine {
 
 impl Machine for PdsMachine {
     fn peek(&self, address: u16) -> u8 {
+        //if address >= 0x1100 && address <= 0x1300 {
+        //    print!("Access to {:04x}h\n", address);
+        //}
+
         if address < ROM.len() as u16 {
             ROM[address as usize]
         } else {
@@ -79,12 +81,12 @@ impl Machine for PdsMachine {
     fn port_out(&mut self, address: u16, value: u8) {
         let port = address as u8 & 0b_1111_1111; // Pins used
 
-        if self.trace_io {
-            println!("OUT(0x{:02x} '{}', 0x{:02x}): ", port, port_name(port), value)
+        if self.trace_io && port != 0xde {
+            println!("OUT(0x{:02x} '{}', 0x{:02x})", port, port_name(port), value)
         }
 
         match port {
-            0xd5 /*CLK1  */ => self.clk1 = value,
+//            0xd5 /*CLK1  */ => self.clk1 = value,
             0xde /*SERDAT*/ => self.put_char(value),
             _ => {}
         } 
@@ -100,6 +102,9 @@ impl Machine for PdsMachine {
                 1 /* TXREADY */
                 | if self.is_key_ready() {2} else {0} /* RXREADY */,
             //0x05 => self.keyboard.get_key(),
+
+            0xd7 => 0xff, // CLK3, to pass hardware check
+
             _ => 0xbb,
         }; 
 
@@ -112,22 +117,38 @@ impl Machine for PdsMachine {
 
 fn port_name(port: u8) -> &'static str {
     match port {
+        // Disk controller ports
         0xCF => "DSKDAT",
-        0xD0 => "DSKCOM0",
-        0xD1 => "DSKSEL0",
+        0xD0 => "DSKCOM/DSSTAT",
+            // bit 0 (OUT): DIRECT (increase track?)
+            // bit 1 (OUT): HDSTEP (decrease track?)
+            // bit 5 (IN): READY, disk ready
+            // bit 6 (IN): TO, track 0
+            // bit 7 (IN): CRC, crc error
+        0xD1 => "DSKSEL",
+            // bits 2-1-0: disk number from 0 to 7
+            // bit 3: any disk selected (or seledt/deselect on OUT)
+            // bit 6: is disk attached
+            // bit 7: WRTPTC, is disk write protected
         0xD2 => "DSKCOM1",
         0xD3 => "DSKSEL1",
-        //0xD0 => "DSSTAT",
 
-        0xD4 => "CLK0  ",
-        0xD5 => "CLK1  ",
-        0xD7 => "BRKPRT",
+        // Z80-CTC ports 0xD4 to 0xD7
+        0xD4 => "CLK0", // Channel 0: Used for floppy timing
+        0xD5 => "CLK1", // Channel 1: USART clock.
+        0xD6 => "CLK2", // Channel 2: User defined
+        0xD7 => "CLK3", // Channel 3: User defined BRKPORT
 
+        // Z80-PIO ports 0xD8 to 0xDB
+
+        // Other
         0xDD => "SWITCH", // Configuration jumpers, the 4 LSB are the tty speed
+
+        // USART 8251 ports 0xDE to 0xDF
         0xDE => "SERDAT",
         0xDF => "SERCON", // Serial port control
-                          // Bit0: transfer ready. Always true.
-                          // Bit1: receieve ready
+                          // bit 0 (IN): transfer ready. Always true.
+                          // bit 1 (IN): receieve ready
         _ => "unknown"
     }
 }

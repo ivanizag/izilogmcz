@@ -5,7 +5,7 @@ authors = ["Ivan Izaguirre <ivanizag@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-iz80 = "^0.3.4"
+iz80 = "^0.3.5"
 #iz80 = {path = "../iz80"}
 clap = "^2"
 
