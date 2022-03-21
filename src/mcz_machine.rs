@@ -18,7 +18,7 @@ static ROM: &[u8] = include_bytes!("../rom/MCZ.PROM.78089.BIN");
 pub const FLOPPY_HANDLER: u16 = 0x0780;
 pub const FLOPPY_POINTERS: u16 = 0x12b4;
 
-pub struct PdsMachine {
+pub struct MczMachine {
     ram: [u8; 65536],
     trace_io: bool,
     console: Console,
@@ -26,9 +26,9 @@ pub struct PdsMachine {
     //i_command: usize
 }
 
-impl PdsMachine {
-    pub fn new(trace_io: bool) -> PdsMachine {
-        PdsMachine {
+impl MczMachine {
+    pub fn new(trace_io: bool) -> MczMachine {
+        MczMachine {
             ram: [0; 65536],
             trace_io,
             console: Console::new(),
@@ -63,7 +63,7 @@ impl PdsMachine {
 
 //const COMMAND: &[u8] = " HELP\r".as_bytes();
 
-impl Machine for PdsMachine {
+impl Machine for MczMachine {
     fn peek(&self, address: u16) -> u8 {
         //if address >= 0x1100 && address <= 0x1300 {
         //    print!("Access to {:04x}h\n", address);

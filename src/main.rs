@@ -3,25 +3,25 @@ use iz80::*;
 
 mod floppy;
 mod media;
-mod pds_machine;
+mod mcz_machine;
 #[cfg(unix)]
 mod console_unix;
 
 use self::floppy::rom_floopy;
 use self::media::Media;
-use self::pds_machine::*;
+use self::mcz_machine::*;
 
 // Welcome message
 const WELCOME: &str =
 "Emulation of the Zilog MCZ-1 computer
-https://github.com/ivanizag/izilogpds\n";
+https://github.com/ivanizag/izilogmcz\n";
 
 static DISK_2_2: &[u8] = include_bytes!("../disks/13-3001-03_MCZ-PDS_RIO_2-2.MCZ");
 static DISK_2_06: &[u8] = include_bytes!("../disks/13-3001-01_MCZ1-20_RIO_206.MCZ");
 static DISK_2_2_SYSTEM: &[u8] = include_bytes!("../disks/13-1000-01-UNABRIDGED_SYSTEM_DISK.MCZ");
 static DISK_EMPTY: &[u8] = include_bytes!("../disks/EMPTY.MCZ");
 
-fn interrupt(cpu: &mut Cpu, machine: &mut PdsMachine, dest: u16) {
+fn interrupt(cpu: &mut Cpu, machine: &mut MczMachine, dest: u16) {
     let pc = cpu.registers().pc();
     let sp = cpu.registers().get16(Reg16::SP);
     machine.poke(sp-2, pc as u8);
@@ -57,7 +57,7 @@ fn main() {
     let disks = matches.values_of("DISK");
 
     // Init device
-    let mut machine = PdsMachine::new(trace_io);
+    let mut machine = MczMachine::new(trace_io);
     let mut cpu = Cpu::new_z80();
     cpu.set_trace(trace_cpu);
 

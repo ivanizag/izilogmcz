@@ -36,9 +36,9 @@ that is provided as part of the standard MCZ-1 Microcomputer.
 The MCZ-1 boots to the [monitor](http://bitsavers.trailing-edge.com/pdf/zilog/mcz-1/03-3106-01A_MCZ-1_20A_and_MCZ-1_25A_Microcomputers_Floppy_Prom_User_Guide_Dec79.pdf). Run the emulator and press any key, not an enter, to get the monitor prompt. Exit the emulator with control C.
 
 ```
-casa@servidor:~$ ./izilogpds 
+casa@servidor:~$ ./izilogmcz
 Emulation of the Zilog MCZ-1 computer
-https://github.com/ivanizag/izilogpds
+https://github.com/ivanizag/izilogmcz
 
 >REG
 A  B  C  D  E  F  H  L  I  A' B' C' D' E' F' H' L'  IX   IY   PC   SP  
@@ -75,9 +75,9 @@ FF 00 00 00 00 FF 00 00 00 00 00 00 00 00 00 00 00 0000 0000 0000 FFFF
 
 If no images are provided on the command line, the OS 2.2 is used. Load the OS with a double return on boot or with the OS command in the monitor:
 ```
-casa@servidor:~$ ./izilogpds 
+casa@servidor:~$ ./izilogmcz 
 Emulation of the Zilog MCZ-1 computer
-https://github.com/ivanizag/izilogpds
+https://github.com/ivanizag/izilogmcz
 
 >OS
 FRIDAY, SEPTEMBER  1, 1978
@@ -163,9 +163,9 @@ FRIDAY, SEPTEMBER  1, 1978
 Up to 8 disk images can be provided from the command line. The ZDS images must have 335104 bytes.
 
 ```
-casa@servidor:~$ izilogpds 13-3001-01_MCZ1-20_RIO_206.MCZ EMPTY.MCZ 13-3001-03_MCZ-PDS_RIO_220-MCZIMAGER.MCZ 
+casa@servidor:~$ izilogmcz 13-3001-01_MCZ1-20_RIO_206.MCZ EMPTY.MCZ 13-3001-03_MCZ-PDS_RIO_220-MCZIMAGER.MCZ 
 Emulation of the Zilog MCZ-1 computer
-https://github.com/ivanizag/izilogpds
+https://github.com/ivanizag/izilogmcz
 
 >
 RIO REL 2.06

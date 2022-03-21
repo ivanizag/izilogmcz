@@ -1,6 +1,6 @@
 use iz80::Machine;
 
-use super::pds_machine::*;
+use super::mcz_machine::*;
 use super::media::*;
 
 const RBDIN_SYNC: u8 = 0x0a;
@@ -8,7 +8,7 @@ const RBDIN_ASYNC: u8 = 0x0b;
 const WRTBIN_SYNC: u8 = 0x0e;
 const WRTBIN_ASYNC: u8 = 0x0f;
 
-fn read_disk_sector(machine: &mut PdsMachine, media: &Media, address: u16, sector: u8, track: u8) {
+fn read_disk_sector(machine: &mut MczMachine, media: &Media, address: u16, sector: u8, track: u8) {
     let data = media.read_sector(track as usize, sector as usize);
     for i in 0..SECTOR_SIZE {
         machine.poke(address+i as u16, data[2+i]);
@@ -20,7 +20,7 @@ fn read_disk_sector(machine: &mut PdsMachine, media: &Media, address: u16, secto
     }
 }
 
-fn write_disk_sector(machine: &mut PdsMachine, media: &mut Media, address: u16, sector: u8, track: u8) {
+fn write_disk_sector(machine: &mut MczMachine, media: &mut Media, address: u16, sector: u8, track: u8) {
     let mut data = [0; SECTOR_SIZE_IN_FILE];
     data[0] = sector & 0x80;
     data[1] = track;
@@ -35,7 +35,7 @@ fn write_disk_sector(machine: &mut PdsMachine, media: &mut Media, address: u16, 
     media.write_sector(track as usize, sector as usize, &data).unwrap();
 }
 
-pub fn rom_floopy(machine: &mut PdsMachine, drives: &mut[Media], iy: u16, floppy_trace: bool) -> u16 {
+pub fn rom_floopy(machine: &mut MczMachine, drives: &mut[Media], iy: u16, floppy_trace: bool) -> u16 {
     let request = machine.peek(iy+1);
     let mut data_address = machine.peek16(iy+2);
     let mut data_length = machine.peek16(iy+4) as usize;
