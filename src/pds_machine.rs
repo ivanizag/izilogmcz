@@ -13,7 +13,10 @@ use super::console_unix::Console;
     Rest: RAM for now
 
 */
+
 static ROM: &[u8] = include_bytes!("../rom/MCZ.PROM.78089.BIN");
+pub const FLOPPY_HANDLER: u16 = 0x0780;
+pub const FLOPPY_POINTERS: u16 = 0x12b4;
 
 pub struct PdsMachine {
     ram: [u8; 65536],

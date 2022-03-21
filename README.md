@@ -31,7 +31,9 @@ that is provided as part of the standard MCZ-1 Microcomputer.
 
 ## Usage examples
 
-The MCZ-1 boots to the [monitor](http://bitsavers.trailing-edge.com/pdf/zilog/mcz-1/03-3106-01A_MCZ-1_20A_and_MCZ-1_25A_Microcomputers_Floppy_Prom_User_Guide_Dec79.pdf). Run the emulator and press any key to get the monitor prompt. Exit the emulator with control C.
+### Monitor
+
+The MCZ-1 boots to the [monitor](http://bitsavers.trailing-edge.com/pdf/zilog/mcz-1/03-3106-01A_MCZ-1_20A_and_MCZ-1_25A_Microcomputers_Floppy_Prom_User_Guide_Dec79.pdf). Run the emulator and press any key, not an enter, to get the monitor prompt. Exit the emulator with control C.
 
 ```
 casa@servidor:~$ ./izilogpds 
@@ -69,17 +71,17 @@ FF 00 00 00 00 FF 00 00 00 00 00 00 00 00 00 00 00 0000 0000 0000 FFFF
 3007=00 300F=08 
 ```
 
-Load the OS with a double return on boot or with the OS command in the monitor:
+### Load Zilog RIO
+
+If no images are provided on the command line, the OS 2.2 is used. Load the OS with a double return on boot or with the OS command in the monitor:
 ```
 casa@servidor:~$ ./izilogpds 
-    Finished dev [unoptimized + debuginfo] target(s) in 0.01s
-     Running `target/debug/izilogpds`
 Emulation of the Zilog MCZ-1 computer
 https://github.com/ivanizag/izilogpds
 
 >OS
 FRIDAY, SEPTEMBER  1, 1978
-RIO REL 2.06
+RIO REL 2.2
 %DISPLAY
 DISPLAY
                     MEMORY ALLOCATION MAP
@@ -88,7 +90,7 @@ DISPLAY
             |   |     |   |     |   |     |   |
 0000        AAAAAAAA  AAAAAAAA  AAAAAAAA  AAAAAAAA
 1000        AAAAAAAA  AAAAAAAA  AAAAAAAA  AAAAAAAA
-2000        AAAAAAAA  AAAAAAAA  AAAAAAAA  AAAAAAAA
+2000        AAAAAAAA  AAAAAAAA  AAA.AAAA  AAAAAAAA
 3000        AAAAAAAA  AAAAAAAA  AAAAAAAA  AAAAAAAA
 4000        AAAAAAAA  AAAAA...  ........  ........
 5000        ........  ........  ........  ........
@@ -101,44 +103,87 @@ B000        ........  ........  ........  ........
 C000        ........  ........  ........  ........
 D000        ........  ........  ........  ........
 E000        ........  ........  ........  ........
-F000        ........  AAAAAAAA  AAAAAAAA  AAAAAAAA
+F000        ........  ........  ....AAAA  AAAAAAAA
 
         "." => FREE    "A" => ALLOCATED
+%STATUS
+STATUS
+
+DRIVE 0   13-3001-03 MCZ RIO 2.2
+1904 SECTORS USED
+ 560 SECTORS AVAILABLE
+
+DRIVE 1   EMPTY
+1224 SECTORS USED
+1240 SECTORS AVAILABLE
+
+DRIVE 2   13-3001-01A MCZ1/20 RIO
+1769 SECTORS USED
+ 695 SECTORS AVAILABLE
+
+DRIVE 3   SYS20DEC82 DRIVE 0
+2426 SECTORS USED
+  38 SECTORS AVAILABLE
 %CAT D=0
 CAT D=0
  FILENAME         DRIVE
  OS.INIT            0    
- NOTE.TO.USER       0    
- HELLO.S            0    
- HELLO.OBJ          0    
- FILE.DEBUG         0    
- ZDOSI              0    
- RIO.OBJ            0    
+ MCZ.1.20.RIO.OBJ   0    
  LAST_MODULE.OBJ    0    
+ ECHO.OBJ           0    
  MCZ.1.20.PROM.780808.OBJ        
                     0    
  MCZ.ZDOS.OBJ       0    
  CON.MAIN.OBJ       0    
- CONVERT            0    
  CON.MCZ.OBJ        0    
  DO.OBJ             0    
  PAUSE.OBJ          0    
  IMAGE.OBJ          0    
- ECHO.OBJ           0    
  RELINK.MCZ.COMMAND 0    
  NBUG.OBJ           0    
  NBUG1.OBJ          0    
  NBUG2.OBJ          0    
  NBUGLAST.OBJ       0    
- ZBUG.OBJ           0    
  NBUG.LINK.CMD      0    
-%STATUS 0
-STATUS 0
+ ZBUG.OBJ           0    
+ NOTE.TO.RIO.USER   0    
+ PRINTER_DEMONSTRATION           
+                    0    
+ PRINTER            0    
+ PRINTER.OBJ        0    
+ PRINTER.S          0    
+%DATE
+DATE
+FRIDAY, SEPTEMBER  1, 1978
+%
+```
+
+### Use ZDS file images
+
+Up to 8 disk images can be provided from the command line. The ZDS images must have 335104 bytes.
+
+```
+casa@servidor:~$ izilogpds 13-3001-01_MCZ1-20_RIO_206.MCZ EMPTY.MCZ 13-3001-03_MCZ-PDS_RIO_220-MCZIMAGER.MCZ 
+Emulation of the Zilog MCZ-1 computer
+https://github.com/ivanizag/izilogpds
+
+>
+RIO REL 2.06
+%STATUS
 
 DRIVE 0   13-3001-01A MCZ1/20 RIO
 1769 SECTORS USED
  695 SECTORS AVAILABLE
+
+DRIVE 1   EMPTY
+1224 SECTORS USED
+1240 SECTORS AVAILABLE
+
+DRIVE 2   13-3001-03 MCZ RIO 2.2
+2241 SECTORS USED
+ 223 SECTORS AVAILABLE
 %
+
 ```
 
 ## Documentation

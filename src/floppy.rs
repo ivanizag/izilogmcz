@@ -1,6 +1,6 @@
 use iz80::Machine;
 
-use super::pds_machine::PdsMachine;
+use super::pds_machine::*;
 use super::media::*;
 
 const RBDIN_SYNC: u8 = 0x0a;
@@ -9,8 +9,6 @@ const WRTBIN_SYNC: u8 = 0x0e;
 const WRTBIN_ASYNC: u8 = 0x0f;
 
 fn read_disk_sector(machine: &mut PdsMachine, media: &Media, address: u16, sector: u8, track: u8) {
-    //print!("READ DISK: address={:04x}h sector={:02} track={:02} offset={:06x}h\n", address, sector, track, start);
-
     let data = media.read_sector(track as usize, sector as usize);
     for i in 0..SECTOR_SIZE {
         machine.poke(address+i as u16, data[2+i]);
@@ -18,26 +16,22 @@ fn read_disk_sector(machine: &mut PdsMachine, media: &Media, address: u16, secto
 
     // Store the pointers and CRC on the PROM working memory, RIO OS reads those bytes.
     for i in 0..6 {
-        machine.poke(0x12b4+i as u16, data[2+SECTOR_SIZE+i]);
+        machine.poke(FLOPPY_POINTERS+i as u16, data[2+SECTOR_SIZE+i]);
     }
 }
 
 fn write_disk_sector(machine: &mut PdsMachine, media: &mut Media, address: u16, sector: u8, track: u8) {
-    //print!("WRITE DISK: address={:04x}h sector={:02} track={:02} offset={:06x}h\n", address, sector, track, start);
-
     let mut data = [0; SECTOR_SIZE_IN_FILE];
     data[0] = sector & 0x80;
     data[1] = track;
-
     for i in 0..SECTOR_SIZE {
         data[2+i] = machine.peek(address+i as u16);
     }
 
     // Get the pointers and CRC on the PROM working memory, RIO OS write those bytes.
     for i in 0..6 {
-        data[2+SECTOR_SIZE+i] = machine.peek(0x12b4+i as u16);
+        data[2+SECTOR_SIZE+i] = machine.peek(FLOPPY_POINTERS+i as u16);
     }
-
     media.write_sector(track as usize, sector as usize, &data).unwrap();
 }
 
