@@ -2,7 +2,7 @@
 
 ## What is this?
 
-This is an emulator of the MCZ-1 computer by Zilog used for Z80 development. This is not a high fidelity emulator, I have no access to the real devices. The objective is being able to run the MCZ-1 monitor and the RIO operating system. The flopyy controller is not emulated, the floppy call on the PROM is simulated and bypassed.
+This is an emulator of the MCZ-1 computer by Zilog used for Z80 development. This is not a high fidelity emulator, I have no access to the real devices. The objective is being able to run the MCZ-1 monitor and the RIO operating system. The floppy controller is not emulated, the floppy call on the PROM is simulated and bypassed.
 
 It uses the [iz80](https://github.com/ivanizag/iz80) library. Made with Rust.
 
@@ -15,7 +15,7 @@ Main features:
 - Z80 processor
 - 3Kb of [PROM](http://bitsavers.trailing-edge.com/pdf/zilog/mcz-1/firmware/ZilogPDS_3K_ROM_SOURCE.zip) with I/O, floppy and debug drivers.
 - 61kb of RAM
-- Dual floppy 8-inch hards ector discs. Single sided, 32 sectors, 77 tracks, 128+4 Bytes per sector. Not emulated yet.
+- Dual floppy 8-inch hard sectored discs. Single sided, 32 sectors, 77 tracks, 128+8 Bytes per sector. Not emulated yet.
 - 1 RS232 port. Emulated with the host console.
 - 2 parallet ports. Not emulated.
 - 9 slots
@@ -190,6 +190,7 @@ DRIVE 2   13-3001-03 MCZ RIO 2.2
 
 - [Brochure MCZ-1 Series Microcomputer System](https://web.archive.org/web/20170904130919/https://amaus.org/static/S100/zilog/brochure/Zilog%20MCZ-1%20Series%20System.pdf)
 - [MCZ-1/2A and MCZ-1/25A Microcomputers Floppy PROM User Guide](http://bitsavers.trailing-edge.com/pdf/zilog/mcz-1/03-3106-01A_MCZ-1_20A_and_MCZ-1_25A_Microcomputers_Floppy_Prom_User_Guide_Dec79.pdf)
+- [Z80-RIO Operating System User's Manual](http://bitsavers.trailing-edge.com/pdf/zilog/mcz-1/03-0072-01A_Z80-RIO_Operating_System_Users_Manual_upd_Nov79.pdf)
 - MCZ-1 Hardware User's manual. It must exists as it is referenced in other documents, but I haven't been able to find a scan.
 - Disks retrieved from: https://github.com/sebhc/sebhc/
 
