@@ -3,6 +3,8 @@
 
 use iz80::Machine;
 
+#[cfg(windows)]
+use super::console_windows::Console;
 #[cfg(unix)]
 use super::console_unix::Console;
 

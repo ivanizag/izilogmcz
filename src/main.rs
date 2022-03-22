@@ -4,6 +4,9 @@ use iz80::*;
 mod floppy;
 mod media;
 mod mcz_machine;
+
+#[cfg(windows)]
+mod console_windows;
 #[cfg(unix)]
 mod console_unix;
 
