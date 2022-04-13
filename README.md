@@ -17,7 +17,7 @@ Main features:
 - 61kb of RAM
 - Dual floppy 8-inch hard sectored discs. Single sided, 32 sectors, 77 tracks, 128+8 Bytes per sector.
 - 1 RS232 port. Emulated with the host console.
-- 2 parallet ports. Not emulated.
+- 2 parallel ports. Not emulated.
 - 9 slots
 
 From the Zilog [brochure](https://web.archive.org/web/20170904130919/https://amaus.org/static/S100/zilog/brochure/Zilog%20MCZ-1%20Series%20System.pdf): The Zilog MCZ-1 Microcomputer Systems are a series of general purpose computers providing very high performance at a low cost. These systems are designed for high reliability and low maintenance. The MCZ-1 Systems
@@ -104,24 +104,7 @@ E000        ........  ........  ........  ........
 F000        ........  ........  ....AAAA  AAAAAAAA
 
         "." => FREE    "A" => ALLOCATED
-%STATUS
-STATUS
 
-DRIVE 0   13-3001-03 MCZ RIO 2.2
-1904 SECTORS USED
- 560 SECTORS AVAILABLE
-
-DRIVE 1   EMPTY
-1224 SECTORS USED
-1240 SECTORS AVAILABLE
-
-DRIVE 2   13-3001-01A MCZ1/20 RIO
-1769 SECTORS USED
- 695 SECTORS AVAILABLE
-
-DRIVE 3   SYS20DEC82 DRIVE 0
-2426 SECTORS USED
-  38 SECTORS AVAILABLE
 %CAT D=0
 CAT D=0
  FILENAME         DRIVE
@@ -156,6 +139,75 @@ FRIDAY, SEPTEMBER  1, 1978
 %
 ```
 
+### Default images
+
+By default the following images are loaded:
+
+- DRIVE 0   13-3001-03 MCZ RIO 2.2
+- DRIVE 1   EMPTY
+- DRIVE 2   13-3051-04 MCZ/PDS UTILI
+- DRIVE 3   13-3301-03 MCZPDS PLZ3.0
+- DRIVE 4   13-3311-03 MCZ BASIC 3.0
+- DRIVE 5   13-3321-03 FD COBOL CPL
+- DRIVE 6   13-3331-03 FORTRAN 4.0FD
+- DRIVE 7   13-3371-02 FD PASCAL 2.0
+
+All the disk images have been downloaded from https://github.com/sebhc/sebhc/tree/master/mcz. Thanks SEBHC and @lesbird for preserving and sharing them.
+
+```
+casa@servidor:~$ ./izilogmcz 
+Emulation of the Zilog MCZ-1 computer
+https://github.com/ivanizag/izilogmcz
+
+>
+RIO REL 2.2
+%STATUS
+
+DRIVE 0   13-3001-03 MCZ RIO 2.2
+1904 SECTORS USED
+ 560 SECTORS AVAILABLE
+
+DRIVE 1   EMPTY
+1224 SECTORS USED
+1240 SECTORS AVAILABLE
+
+DRIVE 2   13-3051-04 MCZ/PDS UTILI
+ 520 SECTORS USED
+1944 SECTORS AVAILABLE
+
+DRIVE 3   13-3301-03 MCZPDS PLZ3.0
+1775 SECTORS USED
+ 689 SECTORS AVAILABLE
+
+DRIVE 4   13-3311-03 MCZ BASIC 3.0
+1165 SECTORS USED
+1299 SECTORS AVAILABLE
+
+DRIVE 5   13-3321-03 FD COBOL CPL
+1274 SECTORS USED
+1190 SECTORS AVAILABLE
+
+DRIVE 6   13-3331-03 FORTRAN 4.0FD
+1137 SECTORS USED
+1327 SECTORS AVAILABLE
+
+DRIVE 7   13-3371-02 FD PASCAL 2.0
+ 532 SECTORS USED
+1932 SECTORS AVAILABLE
+%CAT NOTE.TO.*
+ FILENAME         DRIVE
+ NOTE.TO.RIO.USER   0    
+ NOTE.TO.PATCH.USER 2    
+ NOTE.TO.PLZ.USER   3    
+ NOTE.TO.BASIC.USER 4    
+ NOTE.TO.COBOL.USER 5    
+ NOTE.TO.FORTRAN.USER            
+                    6    
+ NOTE.TO.PASCAL.USER             
+                    7    
+%
+```
+
 ### Use ZDS file images
 
 Up to 8 disk images can be provided from the command line. The ZDS images must have 335104 bytes.
@@ -184,9 +236,34 @@ DRIVE 2   13-3001-03 MCZ RIO 2.2
 
 ```
 
+### Run Zilog Basic
+
+By default, the emulator has Zilog Basic 3.3 in drive 4:
+
+```
+casa@servidor:~$ izilogmcz
+Emulation of the Zilog MCZ-1 computer
+https://github.com/ivanizag/izilogmcz
+
+>
+RIO REL 2.2
+%BASIC
+
+ZILOG BASIC 3.0, 12/6/79  
+BCD ARITHMETIC
+COPYRIGHT 1978,1979, ZILOG, INC
+
+>PRINT 10/3
+ 3.333333333333
+
+>QUIT
+%
+```
+
 ## Documentation
 
 - [Brochure MCZ-1 Series Microcomputer System](https://web.archive.org/web/20170904130919/https://amaus.org/static/S100/zilog/brochure/Zilog%20MCZ-1%20Series%20System.pdf)
+- [MCZ-1/20, 25 Hardware User's Manual](https://github.com/sebhc/sebhc/blob/master/mcz/docs/03-0018-02_MCZ-1_20_25_Hardware_Users_Manual.pdf)
 - [MCZ-1/2A and MCZ-1/25A Microcomputers Floppy PROM User Guide](http://bitsavers.trailing-edge.com/pdf/zilog/mcz-1/03-3106-01A_MCZ-1_20A_and_MCZ-1_25A_Microcomputers_Floppy_Prom_User_Guide_Dec79.pdf)
 - [Z80-MCB Hardware User's Manual](https://github.com/sebhc/sebhc/blob/master/mcz/docs/03-0007-03_Z80-MCB_Hardware_Users_Manual.pdf)
 - [Z80-RIO Operating System User's Manual](http://bitsavers.trailing-edge.com/pdf/zilog/mcz-1/03-0072-01A_Z80-RIO_Operating_System_Users_Manual_upd_Nov79.pdf)

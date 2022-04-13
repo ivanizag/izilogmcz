@@ -20,8 +20,18 @@ const WELCOME: &str =
 https://github.com/ivanizag/izilogmcz\n";
 
 static DISK_2_2: &[u8] = include_bytes!("../disks/13-3001-03_MCZ-PDS_RIO_2-2.MCZ");
-static DISK_2_06: &[u8] = include_bytes!("../disks/13-3001-01_MCZ1-20_RIO_206.MCZ");
-static DISK_2_2_SYSTEM: &[u8] = include_bytes!("../disks/13-1000-01-UNABRIDGED_SYSTEM_DISK.MCZ");
+static DISK_UTILS: &[u8] = include_bytes!("../disks/13-3051-04__MCZ_PDS_RIO_UTILITIES.MCZ");
+static DISK_PLZ: &[u8] = include_bytes!("../disks/13-3301-03__MCZ_PDS_RIO_PLZ_V3.MCZ");
+static DISK_BASIC: &[u8] = include_bytes!("../disks/13-3311-03__MCZ_PDS_BASIC_V3.MCZ");
+static DISK_COBOL: &[u8] = include_bytes!("../disks/13-3321-03__MCZ_PDS_COBOL+RTI_V1.5.MCZ");
+static DISK_FORTRAN: &[u8] = include_bytes!("../disks/13-3331-03__MCZ_PDS_FORTRAN_V4.MCZ");
+static DISK_PASCAL: &[u8] = include_bytes!("../disks/13-3371-02__MCZ_PDS_PASCAL_V2.MCZ");
+//static DISK_: &[u8] = include_bytes!("../");
+//static DISK_: &[u8] = include_bytes!("../");
+
+
+//static DISK_2_06: &[u8] = include_bytes!("../disks/13-3001-01_MCZ1-20_RIO_206.MCZ");
+//static DISK_2_2_SYSTEM: &[u8] = include_bytes!("../disks/13-1000-01-UNABRIDGED_SYSTEM_DISK.MCZ");
 static DISK_EMPTY: &[u8] = include_bytes!("../disks/EMPTY.MCZ");
 
 fn interrupt(cpu: &mut Cpu, machine: &mut MczMachine, dest: u16) {
@@ -76,8 +86,12 @@ fn main() {
             // Load default disks if none specified
             drives.push(Media::new_from_bytes(DISK_2_2));
             drives.push(Media::new_from_bytes(DISK_EMPTY));
-            drives.push(Media::new_from_bytes(DISK_2_06));
-            drives.push(Media::new_from_bytes(DISK_2_2_SYSTEM));
+            drives.push(Media::new_from_bytes(DISK_UTILS));
+            drives.push(Media::new_from_bytes(DISK_PLZ));
+            drives.push(Media::new_from_bytes(DISK_BASIC));
+            drives.push(Media::new_from_bytes(DISK_COBOL));
+            drives.push(Media::new_from_bytes(DISK_FORTRAN));
+            drives.push(Media::new_from_bytes(DISK_PASCAL));
         }
 
     }
