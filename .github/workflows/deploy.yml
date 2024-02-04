@@ -26,11 +26,9 @@ jobs:
             os: windows-latest
             target: x86_64-pc-windows-msvc
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Install Rust
-        uses: dtolnay/rust-toolchain@stable
+      - uses: dtolnay/rust-toolchain@stable
         with:
           targets: ${{ matrix.target }}
 
@@ -65,11 +63,11 @@ jobs:
             echo "ASSET=$dir_name.tar.gz" >> $GITHUB_ENV
           fi
 
-      - name: Upload the binaries
-        uses: softprops/action-gh-release@v1
+      - uses: ncipollo/release-action@v1
         with:
-          files: |
-            ${{ env.ASSET }}
+          artifacts:  ${{ env.ASSET }}
+          #body: "Release for Linux, Windows and MacOS"
+          draft: true
 
       
 
