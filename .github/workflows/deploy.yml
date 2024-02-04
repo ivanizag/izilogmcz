@@ -66,7 +66,8 @@ jobs:
       - uses: ncipollo/release-action@v1
         with:
           artifacts:  ${{ env.ASSET }}
-          #body: "Release for Linux, Windows and MacOS"
+          body: "Release for Linux, Windows and MacOS"
+          allowUpdates: true
           draft: true
 
       
