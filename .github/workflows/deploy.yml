@@ -58,7 +58,7 @@ jobs:
           fi
 
           if [ "${{ matrix.os }}" = "windows-latest" ]; then
-            7z -r "$dir_name.zip" "$dir_name"
+            7z a "$dir_name.zip" "$dir_name"
             echo "ASSET=$dir_name.zip" >> $GITHUB_ENV
           else
             tar -czf "$dir_name.tar.gz" "$dir_name"
