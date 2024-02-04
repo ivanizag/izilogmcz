@@ -28,7 +28,6 @@ jobs:
           - build: windows-gnu
             os: windows-latest
             target: x86_64-pc-windows-gnu
-
     steps:
       - name: Checkout
         uses: actions/ckeckout@v3
